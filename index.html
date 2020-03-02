@@ -1,0 +1,27 @@
+<html>
+    <head>
+    <meta charset="UTF-8">
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+    </head>
+
+    <body>
+
+        <p id="PieChart"><b>Pie Chart<br></b>
+
+        <svg id="piechart_svg" height="500" width="500">
+
+     <script>
+// Referenced From 20.02.12.notes.htm - Found on 3300 Course Repository 
+
+d3.json("resteraunts.json")
+      .then( (data) => {
+      	 console.log(data.length);
+  		data.forEach( (d, i) => {
+  			console.log(d['GRADE']);
+  			console.log(d['DBA']);
+  		});
+
+  	});
+
+    </body>
+</html>
