@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<style>
+  
+    .gridlines line {
+      stroke: #bbb;
+    }
+
+    .gridlines .domain {
+      stroke: none;
+    }
+
+  </style>
+
+
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+<p id="p1"><b>Question 1:<br></b>
+
+<svg id="wineplot" height="500" width="800">
+  <text id="label" x="750" y="20" text-anchor="end" alignment-baseline="hanging"></text>
+</svg>
+
+   <div id="scatterLegend" class="legend"> </div>
+
+<script>
+// Referenced From 20.02.12.notes.htm - Found on 3300 Course Repository 
+
+d3.csv("Manhattan Restaurant.csv").then(function(data) {
+	console.log(data);
+	data.forEach( (d, i) => {
+      d['Reviews'] = Number(d['Reviews']);
+      d['Score'] = Number(d['Score']);
+      d['Cuisine'] = String(d['Cuisine']);
+    });
+
+
+  const scoreMin = d3.min(data, (d) => {return d['Score'];} );
+  const scoreMax = d3.max(data, (d) => {return d['Score'];} );
+  const reviewsMin = d3.min(data, (d) => {return d['Reviews'];} );
+  const reviewsMax = d3.max(data, (d) => {return d['Reviews'];} );
+
+  console.log(scoreMin);
+  console.log(scoreMax);
+
+  console.log(reviewsMin);
+  console.log(reviewsMax);
+
+
+  const wineplotsvg = d3.select("svg#wineplot");
+  const wineplotwidth = wineplotsvg.attr("width");
+  const wineplotheight = wineplotsvg.attr("height");
+  const wineplotmargins = {"top": 50, "right": 50, "bottom": 50, "left": 50}; 
+  const winechartWidth =wineplotwidth - wineplotmargins.left - wineplotmargins.right;
+  const winechartHeight = wineplotheight - wineplotmargins.top - wineplotmargins.bottom;
+
+  let annotations = wineplotsvg.append("g").attr("id","annotations");
+
+  let wineplotgrid = wineplotsvg.append("g").attr("id","points")
+                  .attr("transform","translate("+wineplotmargins.left+","+(wineplotmargins.top)+")");
+
+  const priceScale = d3.scaleLinear().domain([0, reviewsMax+10]).range([0, winechartWidth]);
+  const pointScale = d3.scaleLinear().domain([0, scoreMax]).range([winechartHeight, 0]);
+
+  const stateScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+let leftAxis = d3.axisLeft(pointScale)
+                   .tickFormat(d3.format("~f"));
+                     
+  let leftGridlines = d3.axisLeft(pointScale)
+                        .tickSize(-winechartWidth-10)
+                        .tickFormat("")
+  
+
+  annotations.append("g")
+    .attr("class", "y axis")
+    .attr("transform","translate("+(wineplotmargins.left)+","+wineplotmargins.top+")")
+    .call(leftAxis)
+  
+
+  annotations.append("g")
+    .attr("class", "y gridlines")
+    .attr("transform","translate("+(wineplotmargins.left)+","+wineplotmargins.top+")")
+    .call(leftGridlines);
+  
+
+  // Referenced From 02/17 Lecture
+  let bottomAxis = d3.axisBottom(priceScale)
+                     
+                      
+  let bottomGridlines = d3.axisBottom(priceScale)
+                          .tickSize(-winechartHeight-10)
+                          .tickFormat("")
+  annotations.append("g")
+    .attr("class", "x axis")
+    .attr("transform","translate("+wineplotmargins.left+","+(winechartHeight+wineplotmargins.top)+")")
+    .call(bottomAxis);
+  annotations.append("g")
+    .attr("class", "x gridlines")
+    .attr("transform","translate("+wineplotmargins.left+","+(winechartHeight+wineplotmargins.top)+")")
+    .call(bottomGridlines);
+
+ let wineplotscatter = wineplotsvg.append("g")
+                .attr("transform","translate("+(wineplotmargins.left)+","+wineplotmargins.top+")");
+
+// Referenced From https://stackoverflow.com/questions/9450441/create-a-random-number-between-100-and-100-in-javascript
+
+function jitter() {
+  return Math.floor(Math.random() * 9) - 4;  
+};
+  
+data.forEach( (d, i) => {
+    
+    let circle = wineplotscatter.append("circle")
+        .attr("cx", priceScale(d['Reviews'] ) + jitter())
+        .attr("cy", pointScale(d['Score']  ) + jitter())
+        .attr("r", 4)
+        .attr("opacity", 0.5)
+        .attr("fill", stateScale(d['Cuisine']) )
+        .attr("Cuisine", d["Cuisine"])
+        .attr("label", d["title"]);
+
+
+  circle.on("mouseover", function() {
+        
+        d3.select(this)
+          .transition().duration(200)
+          .attr("r", 8)
+          .attr("stroke","black")
+          .attr("stroke-width", 4)
+          .attr("opacity", 1)
+          label.text(d['title']);
+        
+      });
+
+
+      
+    
+      circle.on("mouseout", function() {
+
+        
+        d3.select(this)
+          .transition().duration(200)
+          .attr("stroke","")
+          .attr("stroke-width", 1)
+          .attr("opacity", 0.5)
+          .attr("r", 4)
+          .attr("fill", stateScale(d['state']) );
+        
+          label.text("");
+      });
+      
+
+
+  }  
+
+  );
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
