@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+.axis .domain {
+  display: none;
+}
+
+</style>
+
+<head>
+<meta charset="UTF-8">
+<script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+
+<p id="health_score_barchart"><b>Mean Health Score by Resteraunt Category and Price</b>
+  <br>
+  <br>
+
+<svg width="1000" height="500"></svg>
+
+
+
+<script>
+
+  // Referenced From: https://bl.ocks.org/Andrew-Reid/0aedd5f3fb8b099e3e10690bd38bd458
+
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 50, bottom: 30, left: 40},
+    height = svg.attr("height");
+    width = svg.attr("width");
+    chartWidth = +svg.attr("width") - margin.left - margin.right,
+    chartHeight = +svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var y = d3.scaleBand()     
+    .rangeRound([0, chartHeight]) 
+    .paddingInner(0.05)
+    .align(0.1);
+
+var x = d3.scaleLinear()    
+    .rangeRound([0, chartWidth]); 
+
+var z = d3.scaleOrdinal()
+    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+d3.csv("cuisine_barplot.csv").then(function(data) {
+
+  var keys = data.columns.slice(1);
+
+  y.domain(data.map(function(d) { return d.Price; }));        
+  x.domain([0, 150]).nice();  
+  z.domain(keys);
+
+  g.append("g")
+    .selectAll("g")
+    .data(d3.stack().keys(keys)(data))
+    .enter().append("g")
+      .attr("fill", function(d) { return z(d.key); })
+    .selectAll("rect")
+    .data(function(d) { return d; })
+    .enter().append("rect")
+      .attr("y", function(d) { return y(d.data.Price); })     
+      .attr("x", function(d) { return x(d[0]); })        
+      .attr("width", function(d) { return x(d[1]) - x(d[0]); }) 
+      .attr("height", y.bandwidth())
+
+      // Referenced From: http://bl.ocks.org/mstanaland/6100713
+      .on("mouseover", function() { tooltip.style("display", null); })
+        .on("mouseout", function() { tooltip.style("display", "none"); })
+        .on("mousemove", function(d) {
+      var xPosition = d3.mouse(this)[0] + 50;
+      var yPosition = d3.mouse(this)[1] - 20;
+      tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+      tooltip.select("text").text("Mean Health Score: " + Math.round(d[1]-d[0]));
+
+   });  
+
+  g.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0,0)")         
+      .call(d3.axisLeft(y));                
+
+  g.append("g")
+      .attr("class", "axis")
+    .attr("transform", "translate(0,"+(chartHeight+10)+")")       
+      .call(d3.axisBottom(x).ticks(null, "s"))          
+    .append("text")
+      .attr("y", 5)                       
+      .attr("x", x(x.ticks().pop()) + 0.5)           
+      .attr("dy", "0.32em")                  
+      .attr("fill", "#000")
+      .attr("font-weight", "bold")
+      .attr("text-anchor", "start")
+      .text("Average Health Score")
+    .attr("transform", "translate("+ (-chartWidth) +",-10)");    
+
+  var legend = g.append("g")
+      .attr("font-family", "sans-serif")
+      .attr("font-size", 10)
+      .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(keys.slice().reverse())
+    .enter().append("g")
+  
+   .attr("transform", function(d, i) { return "translate(-50," + (300 + i * 20) + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 20)
+      .attr("width", 20)
+      .attr("height", 20)
+      .attr("fill", z);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9.5)
+      .attr("dy", "0.32em")
+      .text(function(d) { return d; });
+});
+
+ // Referenced From: http://bl.ocks.org/mstanaland/6100713
+var tooltip = svg.append("g")
+    .attr("class", "tooltip")
+    .style("display", "none");
+      
+  tooltip.append("rect")
+    .attr("width", 60)
+    .attr("height", 20)
+    .style("opacity", 0);
+
+  tooltip.append("text")
+    .attr("x", 10)
+    .attr("dy", "1.2em")
+    .style("text-anchor", "middle")
+    .attr("font-size", "18px")
+    .attr("font-weight", "bold");
+
+</script>
+</p>
+</body>
+</html>
