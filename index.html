@@ -28,6 +28,19 @@
 <br>
 
 <p id="health_score_barplot"><h3> Visualization 1: The Correlation between Health Score and Restaurant's Average Price</h3>
+  
+  <h5 id="hypothesis">
+    <span>
+    H1: A restaurant's price point has an affect on its health score rating. The more expensive a restaurant, 
+    the higher the health score.
+  </span>
+  </h5>
+  <h5 id="hypothesis">
+  <span>
+    H2: There is a correlation between cuisine type and its health score rating. We will see that certain types 
+    of cuisine tend to have higher health-scores.
+  </span>
+  </h5>
   <div id="intro">
     In our first visualization, the stacked barplot above is displaying the comparisons of the mean health score by cuisine
     type and average price of each sample restaurant from Google Maps. The bars are segmented by resteraunt category
@@ -149,9 +162,36 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
 </script>
 </p>
 
+<h5 id="hypothesis">
+  <span>
+  <b style="color:red">FALSE</b>  H1: A restaurant's price point has an affect on its health score rating. The more expensive a restaurant, 
+  the higher the health score.
+</span>
+</h5>
+<h5 id="hypothesis">
+<span>
+  <b style="color:green">TRUE</b>  H2: There is a correlation between cuisine type and its health score rating. We will see that certain types 
+  of cuisine tend to have higher health-scores.
+</span>
+</h5>
+
+
+<div>
+  From this visualization, we determined that our hypothesis #1 was false, and our hypothesis #2 was true. 
+</div>
+
+<br>
+<br>
+<br>
 
 
 <p id="review_scatterplot"><h3> Visualization 2: The Correlation between Health Score and Number of Restaurant's Google Reviews </h4>
+  <h5 id="hypothesis">
+    <span>
+    H1: A restaurant's google review count has an affect on its health score rating. The more google reviews a restaurant has, 
+    the higher the health score.
+  </span>
+  </h5>
 
   <div id="intro">
     In our second visualization, the scatterplot is displaying a comparison between the number of google reviews

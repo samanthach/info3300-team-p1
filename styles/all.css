@@ -30,9 +30,20 @@ h2 {
 }
 
 #intro {
-    padding: 5px;
+    padding: 10px;
 }
 
 #cover {
     width: 100%;
+    opacity: 100%;
+    
 }
+
+#hypothesis {
+    padding: 0px;
+}
+
+/* h5 span {
+    background-color: rgb(204, 229, 245);
+} */
+
