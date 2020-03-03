@@ -42,6 +42,14 @@ h2 {
     font-style: italic;
 }
 
+#paragraph {
+    padding: 10px;;
+}
+
+span ul{
+  padding: 10px;
+}
+
 #validation {
     padding: 10px;
 }

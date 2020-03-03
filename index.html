@@ -48,9 +48,9 @@
     type and average price of each sample restaurant from Google Maps. The bars are segmented by resteraunt category
     (i.e., the type of cuisine the restaurant serves). Our rationale for comparing these variables
     was based on the hypothesis that there might be a correlation between the mean health score and the average
-    price for each restaurant - the higher the score, the higher the average price of it. We also assume that the
-    taurants who receive higher health scores by NYS Health Department are more likely to set up higher average
-    prices as they regard themselves as “upscale” and “high-end service” restaurants.
+    price for each restaurant - the higher the average price the restaurant sets, the higher the health score it will receive.
+    We also assume that the restaurants who receive higher health scores by NYS Health Department are more likely to set up
+    higher average prices as they regard themselves as “upscale” and “high-end service” restaurants.
   </div>
   <br>
 <svg width="650" height="500"></svg>
@@ -161,6 +161,25 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
 
 });
 </script>
+</p>
+
+<p id="paragraph">
+  <span> Based on the three cuisine categories we determined, we divided them into specific types.
+    Therefore, We randomly selected 50 Chinese and Korean restaurants in the Asian cuisine,
+    50 New American restaurants in the American cuisine, and 50 French, Italian and Spanish restaurants
+    in the European cuisine. However, though there is some data empty, we can still show the distribution
+    of each restaurant regarding the price level based on the health score measured by the NYS health department.
+    On the left axis, we show the price level from “$” to “$$$$” that is based on the information from Google Maps.
+    On the bottom axis, we showed their health score distributions based on each specific cuisine.
+    In addition, each color stands for a specific cuisine type. Below are our findings:
+
+    <ul class="bullet-points">
+  <li>In this dataset, American restaurants are among the lowest health scores for each level of the average price.</li>
+  <li>Chinese restaurants, though they receive relatively higher health scores than American’s, their average prices remain on the lower levels in this dataset. (only shown in “$” and “$$”)</li>
+  <li>French restaurants receive relatively higher health scores than American’s, but at price level “$$”, we can tell that their scores rank higher than Chinese restaurants</li>
+  <li>Italian restaurants from whom most of them receive health scores above 40, none of them sets up price at level 1 (“$”), yet they receive scores lower than Korean and Spanish.</li>
+  <li>Spanish restaurants, though all of the restaurants selected in this dataset have received the highest health scores than any other selected cuisine types, they set up their average price in the lowest level (“$” and “$$”)</li>
+</ul></span>
 </p>
 
 <p id="validation">
