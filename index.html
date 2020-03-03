@@ -24,15 +24,17 @@
      health score rated by the NYS Health Department and the number of Google reviews it has. 
   </div>
 <br>
-<br>
+
 <p id="health_score_barplot"><h3> Visualization 1: The Correlation between Health Score and Restaurant's Average Price</h3>
-  <br>
-  <br>
-
-  <div>
-
+  <div id="intro">
+    In our first visualization, the bar chart is displaying the comparisons of the mean health score by cuisine 
+    type and average price of each sample restaurant from Google Maps. Our rationale for comparing these variables 
+    was based on the hypothesis that there might be a correlation between the mean health score and the average 
+    price for each restaurant - the higher the score, the higher the average price of it. We also assume that the 
+    taurants who receive higher health scores by NYS Health Department are more likely to set up higher average 
+    prices as they regard themselves as “upscale” and “high-end service” restaurants.
   </div>
-
+  <br>
 <svg width="1000" height="500"></svg>
 
 
@@ -148,6 +150,16 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
 
 
 <p id="review_scatterplot"><h3> Visualization 2: The Correlation between Health Score and Number of Restaurant's Google Reviews </h4>
+
+  <div id="intro">
+    In our second visualization, the scatterplot is displaying a comparison between the number of google reviews 
+    a restaurant has and its health score as rated by the New York State health department. Our rationale for 
+    comparing these variables was based on the hypothesis that the the more reviewed on Google a restaurant was,
+     there could be a correlation in that the health score may be skewed higher or lower. We assume that more
+      prominent restaurants are likely to receive higher health scores by NYS Health Department, and therefore 
+      they would get more Google reviews.
+  </div>
+
 
 <svg id="reviewplot" height="500" width="800">
   <text id="label" x="750" y="20" text-anchor="end" alignment-baseline="hanging"></text>
