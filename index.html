@@ -14,9 +14,8 @@
 
 <div>INFO 3300 Project 1: Angela Chen(ac2689), Robert Kleyner(rsk227), Samantha Chu(sc2855)</div>
 <section>
-<h3> Visualization 1: The Correlation between Health Score and Restaurant's Average Price </h3>
 
-<p id="health_score_barchart"><b>Mean Health Score by Restaurant Category and Price</b>
+<p id="health_score_barplot"><h3> Visualization 1: The Correlation between Health Score and Restaurant's Average Price</h3>
   <br>
   <br>
 
@@ -37,13 +36,13 @@ var chartWidth = (svg.attr("width") - margin.left - margin.right);
 var chartHeight = (svg.attr("height") - margin.top - margin.bottom);
 var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-var y = d3.scaleBand()     
-    .rangeRound([0, chartHeight]) 
+var y = d3.scaleBand()
+    .rangeRound([0, chartHeight])
     .paddingInner(0.05)
     .align(0.1);
 
-var x = d3.scaleLinear()    
-    .rangeRound([0, chartWidth]); 
+var x = d3.scaleLinear()
+    .rangeRound([0, chartWidth]);
 
 var z = d3.scaleOrdinal()
     .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
@@ -52,8 +51,8 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
 
   var keys = data.columns.slice(1);
 
-  y.domain(data.map(function(d) { return d.Price; }));        
-  x.domain([0, 150]).nice();  
+  y.domain(data.map(function(d) { return d.Price; }));
+  x.domain([0, 150]).nice();
   z.domain(keys);
 
   g.append("g")
@@ -64,31 +63,31 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
     .selectAll("rect")
     .data(function(d) { return d; })
     .enter().append("rect")
-      .attr("y", function(d) { return y(d.data.Price); })     
-      .attr("x", function(d) { return x(d[0]); })        
-      .attr("width", function(d) { return x(d[1]) - x(d[0]); }) 
+      .attr("y", function(d) { return y(d.data.Price); })
+      .attr("x", function(d) { return x(d[0]); })
+      .attr("width", function(d) { return x(d[1]) - x(d[0]); })
       .attr("height", y.bandwidth());
 
       // Referenced From: http://bl.ocks.org/mstanaland/6100713
-      
+
 
   g.append("g")
       .attr("class", "axis")
-      .attr("transform", "translate(0,0)")         
-      .call(d3.axisLeft(y));                
+      .attr("transform", "translate(0,0)")
+      .call(d3.axisLeft(y));
 
   g.append("g")
       .attr("class", "axis")
-    .attr("transform", "translate(0,"+(chartHeight+10)+")")       
-      .call(d3.axisBottom(x).ticks(null, "s"))          
+    .attr("transform", "translate(0,"+(chartHeight+10)+")")
+      .call(d3.axisBottom(x).ticks(null, "s"))
     .append("text")
-      .attr("y", 5)                       
-      .attr("x", x(x.ticks().pop()) + 0.5)           
-      .attr("dy", "0.32em")                  
+      .attr("y", 5)
+      .attr("x", x(x.ticks().pop()) + 0.5)
+      .attr("dy", "0.32em")
       .attr("fill", "#000")
       .attr("font-weight", "bold")
       .attr("text-anchor", "start")
-    .attr("transform", "translate("+ (-chartWidth) +",-10)");    
+    .attr("transform", "translate("+ (-chartWidth) +",-10)");
 
   var legend = g.append("g")
       .attr("font-family", "sans-serif")
@@ -97,7 +96,7 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
     .selectAll("g")
     .data(keys.slice().reverse())
     .enter().append("g")
-  
+
    .attr("transform", function(d, i) { return "translate(-50," + (300 + i * 20) + ")"; });
 
   legend.append("rect")
@@ -119,28 +118,22 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
       .attr("x",0 - (chartHeight / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Price");      
+      .text("Price");
 
-  g.append("text")             
+  g.append("text")
       .attr("transform",
-            "translate(" + (width/2) + " ," + 
+            "translate(" + (width/2) + " ," +
                            (chartHeight + 50) + ")")
       .style("text-anchor", "middle")
       .text("Average Health Score");
 
-
-
-
 });
-
-
-
 </script>
 </p>
 
 
 
-<p id="review_scatterplot">
+<p id="review_scatterplot"><h3> Visualization 2: The Correlation between Health Score and Number of Restaurant's Google Reviews </h4>
 
 <svg id="reviewplot" height="500" width="800">
   <text id="label" x="750" y="20" text-anchor="end" alignment-baseline="hanging"></text>
@@ -149,7 +142,7 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
    <div id="scatterLegend" class="legend"> </div>
 
 <script>
-// Referenced From 20.02.12.notes.htm - Found on 3300 Course Repository 
+// Referenced From 20.02.12.notes.htm - Found on 3300 Course Repository
 
 d3.csv("Manhattan Restaurant.csv").then(function(data) {
   console.log(data);
@@ -175,7 +168,7 @@ d3.csv("Manhattan Restaurant.csv").then(function(data) {
   const reviewplotsvg = d3.select("svg#reviewplot");
   const reviewplotwidth = reviewplotsvg.attr("width");
   const reviewplotheight = reviewplotsvg.attr("height");
-  const reviewplotmargins = {"top": 50, "right": 50, "bottom": 50, "left": 50}; 
+  const reviewplotmargins = {"top": 50, "right": 50, "bottom": 50, "left": 50};
   const reviewchartWidth =reviewplotwidth - reviewplotmargins.left - reviewplotmargins.right;
   const reviewchartHeight = reviewplotheight - reviewplotmargins.top - reviewplotmargins.bottom;
 
@@ -192,28 +185,28 @@ d3.csv("Manhattan Restaurant.csv").then(function(data) {
 
 let leftAxis = d3.axisLeft(pointScale)
                    .tickFormat(d3.format("~f"));
-                     
+
   let leftGridlines = d3.axisLeft(pointScale)
                         .tickSize(-reviewchartWidth-10)
                         .tickFormat("")
-  
+
 
   annotations.append("g")
     .attr("class", "y axis")
     .attr("transform","translate("+(reviewplotmargins.left)+","+reviewplotmargins.top+")")
     .call(leftAxis)
-  
+
 
   annotations.append("g")
     .attr("class", "y gridlines")
     .attr("transform","translate("+(reviewplotmargins.left)+","+reviewplotmargins.top+")")
     .call(leftGridlines);
-  
+
 
   // Referenced From 02/17 Lecture
   let bottomAxis = d3.axisBottom(priceScale)
-                     
-                      
+
+
   let bottomGridlines = d3.axisBottom(priceScale)
                           .tickSize(-reviewchartHeight-10)
                           .tickFormat("")
@@ -232,9 +225,9 @@ let leftAxis = d3.axisLeft(pointScale)
 // Referenced From https://stackoverflow.com/questions/9450441/create-a-random-number-between-100-and-100-in-javascript
 
 
-  // add circles 
+  // add circles
 data.forEach( (d, i) => {
-    
+
     let circle = reviewplotscatter.append("circle")
         .attr("cx", priceScale(d['Reviews'] ) )
         .attr("cy", pointScale(d['Score']  ))
@@ -255,12 +248,12 @@ annotations.append("text")
       .attr("x", 0 - (reviewplotheight / 2))
       .attr("dy", "1em")
       .style("text-anchor", "middle")
-      .text("Health Score");      
+      .text("Health Score");
 
 
-  annotations.append("text")             
+  annotations.append("text")
       .attr("transform",
-            "translate(" + (reviewplotwidth/2) + " ," + 
+            "translate(" + (reviewplotwidth/2) + " ," +
                            (reviewchartHeight + 90) + ")")
       .style("text-anchor", "middle")
       .text("Number of Google Reviews");
@@ -270,10 +263,11 @@ annotations.append("text")
 </script>
 </p>
 
+// Visualization 3: piechart
 <p id="piechart">
 
   <script>
-    var width = 
+    var width =
   </script>
 
   </p>
