@@ -31,7 +31,7 @@
 <b>Angela Chen(ac2689), Robert Kleyner(rsk227), Samantha Chu(sc2855)<b>
 <section>
 
-<p id="health_score_barchart"><h3> Visualization 1: The Correlation between Health Score and Restaurant's Average Price</h3>
+<p id="health_score_barplot"><h3> Visualization 1: The Correlation between Health Score and Restaurant's Average Price</h3>
   <br>
   <br>
 
@@ -196,7 +196,8 @@ d3.csv("Manhattan Restaurant.csv").then(function(data) {
   const priceScale = d3.scaleLinear().domain([0, 8000]).range([0, reviewchartWidth]);
   const pointScale = d3.scaleLinear().domain([0, 120]).range([reviewchartHeight, 0]);
 
-  const stateScale = d3.scaleOrdinal(d3.schemeCategory10);
+  const cuisineScale = d3.scaleOrdinal(d3.schemeCategory10);
+
 
 let leftAxis = d3.axisLeft(pointScale)
                    .tickFormat(d3.format("~f"));
@@ -240,7 +241,7 @@ let leftAxis = d3.axisLeft(pointScale)
 // Referenced From https://stackoverflow.com/questions/9450441/create-a-random-number-between-100-and-100-in-javascript
 
 
-
+  // add circles
 data.forEach( (d, i) => {
 
     let circle = reviewplotscatter.append("circle")
@@ -248,7 +249,8 @@ data.forEach( (d, i) => {
         .attr("cy", pointScale(d['Score']  ))
         .attr("r", 4)
         .attr("opacity", 0.5)
-        .attr("fill", stateScale(d['Cuisine']) )
+        .attr("fill", cuisineScale(d['Cuisine']) )
+        .attr("fill", 'grey' )
         .attr("Cuisine", d["Cuisine"])
         .attr("label", d["title"]);
 
@@ -275,9 +277,16 @@ annotations.append("text")
 });
 
 </script>
-
 </p>
 
+// Visualization 3: piechart
+<p id="piechart">
+
+  <script>
+    var width =
+  </script>
+
+  </p>
 
 
 
