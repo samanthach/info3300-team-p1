@@ -201,6 +201,7 @@ d3.csv("Manhattan Restaurant.csv").then(function(data) {
 
   const cuisineScale = d3.scaleOrdinal(d3.schemeCategory10);
 
+
 let leftAxis = d3.axisLeft(pointScale)
                    .tickFormat(d3.format("~f"));
                      
@@ -252,6 +253,7 @@ data.forEach( (d, i) => {
         .attr("r", 4)
         .attr("opacity", 0.5)
         .attr("fill", cuisineScale(d['Cuisine']) )
+        .attr("fill", 'grey' )
         .attr("Cuisine", d["Cuisine"])
         .attr("label", d["title"]);
 
