@@ -28,7 +28,7 @@
 
 <p id="p1"><b>Question 1:<br></b>
 
-<svg id="wineplot" height="500" width="800">
+<svg id="reviewplot" height="500" width="800">
   <text id="label" x="750" y="20" text-anchor="end" alignment-baseline="hanging"></text>
 </svg>
 
@@ -58,20 +58,20 @@ d3.csv("Manhattan Restaurant.csv").then(function(data) {
   console.log(reviewsMax);
 
 
-  const wineplotsvg = d3.select("svg#wineplot");
-  const wineplotwidth = wineplotsvg.attr("width");
-  const wineplotheight = wineplotsvg.attr("height");
-  const wineplotmargins = {"top": 50, "right": 50, "bottom": 50, "left": 50}; 
-  const winechartWidth =wineplotwidth - wineplotmargins.left - wineplotmargins.right;
-  const winechartHeight = wineplotheight - wineplotmargins.top - wineplotmargins.bottom;
+  const reviewplotsvg = d3.select("svg#reviewplot");
+  const reviewplotwidth = reviewplotsvg.attr("width");
+  const reviewplotheight = reviewplotsvg.attr("height");
+  const reviewplotmargins = {"top": 50, "right": 50, "bottom": 50, "left": 50}; 
+  const reviewchartWidth =reviewplotwidth - reviewplotmargins.left - reviewplotmargins.right;
+  const reviewchartHeight = reviewplotheight - reviewplotmargins.top - reviewplotmargins.bottom;
 
-  let annotations = wineplotsvg.append("g").attr("id","annotations");
+  let annotations = reviewplotsvg.append("g").attr("id","annotations");
 
-  let wineplotgrid = wineplotsvg.append("g").attr("id","points")
-                  .attr("transform","translate("+wineplotmargins.left+","+(wineplotmargins.top)+")");
+  let reviewplotgrid = reviewplotsvg.append("g").attr("id","points")
+                  .attr("transform","translate("+reviewplotmargins.left+","+(reviewplotmargins.top)+")");
 
-  const priceScale = d3.scaleLinear().domain([0, reviewsMax+10]).range([0, winechartWidth]);
-  const pointScale = d3.scaleLinear().domain([0, scoreMax]).range([winechartHeight, 0]);
+  const priceScale = d3.scaleLinear().domain([0, 8000]).range([0, reviewchartWidth]);
+  const pointScale = d3.scaleLinear().domain([0, 120]).range([reviewchartHeight, 0]);
 
   const stateScale = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -79,19 +79,19 @@ let leftAxis = d3.axisLeft(pointScale)
                    .tickFormat(d3.format("~f"));
                      
   let leftGridlines = d3.axisLeft(pointScale)
-                        .tickSize(-winechartWidth-10)
+                        .tickSize(-reviewchartWidth-10)
                         .tickFormat("")
   
 
   annotations.append("g")
     .attr("class", "y axis")
-    .attr("transform","translate("+(wineplotmargins.left)+","+wineplotmargins.top+")")
+    .attr("transform","translate("+(reviewplotmargins.left)+","+reviewplotmargins.top+")")
     .call(leftAxis)
   
 
   annotations.append("g")
     .attr("class", "y gridlines")
-    .attr("transform","translate("+(wineplotmargins.left)+","+wineplotmargins.top+")")
+    .attr("transform","translate("+(reviewplotmargins.left)+","+reviewplotmargins.top+")")
     .call(leftGridlines);
   
 
@@ -100,72 +100,53 @@ let leftAxis = d3.axisLeft(pointScale)
                      
                       
   let bottomGridlines = d3.axisBottom(priceScale)
-                          .tickSize(-winechartHeight-10)
+                          .tickSize(-reviewchartHeight-10)
                           .tickFormat("")
   annotations.append("g")
     .attr("class", "x axis")
-    .attr("transform","translate("+wineplotmargins.left+","+(winechartHeight+wineplotmargins.top)+")")
+    .attr("transform","translate("+reviewplotmargins.left+","+(reviewchartHeight+reviewplotmargins.top)+")")
     .call(bottomAxis);
   annotations.append("g")
     .attr("class", "x gridlines")
-    .attr("transform","translate("+wineplotmargins.left+","+(winechartHeight+wineplotmargins.top)+")")
+    .attr("transform","translate("+reviewplotmargins.left+","+(reviewchartHeight+reviewplotmargins.top)+")")
     .call(bottomGridlines);
 
- let wineplotscatter = wineplotsvg.append("g")
-                .attr("transform","translate("+(wineplotmargins.left)+","+wineplotmargins.top+")");
+ let reviewplotscatter = reviewplotsvg.append("g")
+                .attr("transform","translate("+(reviewplotmargins.left)+","+reviewplotmargins.top+")");
 
 // Referenced From https://stackoverflow.com/questions/9450441/create-a-random-number-between-100-and-100-in-javascript
 
-function jitter() {
-  return Math.floor(Math.random() * 9) - 4;  
-};
+
   
 data.forEach( (d, i) => {
     
-    let circle = wineplotscatter.append("circle")
-        .attr("cx", priceScale(d['Reviews'] ) + jitter())
-        .attr("cy", pointScale(d['Score']  ) + jitter())
+    let circle = reviewplotscatter.append("circle")
+        .attr("cx", priceScale(d['Reviews'] ) )
+        .attr("cy", pointScale(d['Score']  ))
         .attr("r", 4)
         .attr("opacity", 0.5)
         .attr("fill", stateScale(d['Cuisine']) )
         .attr("Cuisine", d["Cuisine"])
         .attr("label", d["title"]);
 
-
-  circle.on("mouseover", function() {
-        
-        d3.select(this)
-          .transition().duration(200)
-          .attr("r", 8)
-          .attr("stroke","black")
-          .attr("stroke-width", 4)
-          .attr("opacity", 1)
-          label.text(d['title']);
-        
-      });
+  }  );
 
 
-      
-    
-      circle.on("mouseout", function() {
-
-        
-        d3.select(this)
-          .transition().duration(200)
-          .attr("stroke","")
-          .attr("stroke-width", 1)
-          .attr("opacity", 0.5)
-          .attr("r", 4)
-          .attr("fill", stateScale(d['state']) );
-        
-          label.text("");
-      });
-      
+annotations.append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0)
+      .attr("x", 0 - (reviewplotheight / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Health Score");      
 
 
-  }  
-
-  );
+  annotations.append("text")             
+      .attr("transform",
+            "translate(" + (reviewplotwidth/2) + " ," + 
+                           (reviewchartHeight + 90) + ")")
+      .style("text-anchor", "middle")
+      .text("Number of Google Reviews");
 
 });
 
