@@ -171,7 +171,7 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
     of each restaurant regarding the price level based on the health score measured by the NYS health department.
     On the left axis, we show the price level from “$” to “$$$$” that is based on the information from Google Maps.
     On the bottom axis, we showed their health score distributions based on each specific cuisine.
-    In addition, each color stands for a specific cuisine type. Below are our findings:
+    In addition, each color stands for a specific cuisine type. <br><br>Below are our findings:
 
     <ul class="bullet-points">
   <li>In this dataset, American restaurants are among the lowest health scores for each level of the average price.</li>
@@ -196,12 +196,6 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
 </p>
 
 
-  <p id="conclusion">
-  <span>
-  From this visualization, we determined that our hypothesis #1 was false, and our hypothesis #2 was true.
-</span>
-</p>
-
 <br>
 <br>
 <br>
@@ -223,6 +217,7 @@ d3.csv("cuisine_barplot.csv").then(function(data) {
       prominent restaurants are likely to receive higher health scores by NYS Health Department, and therefore
       they would get more Google reviews.
   </div>
+ 
 
 
 <svg id="reviewplot" height="500" width="700">
@@ -357,6 +352,15 @@ annotations.append("text")
     <b style="color:red">FALSE</b> Hypothesis 3: A restaurant's google review count has an affect on its health score rating. The more google reviews a restaurant has,
   the higher the health score.
 </span>
+<br>
+<br>
+
+Our hypothesis for the health score vs. google reviews correlation was that there would be a positive linear relationship between the two variables. Our assumption was that the more google reviews a restaurant had, the more prominent the restaurant was, which would hopefully correlate with a restaurant’s cleanliness rating by the NYS Health Department. 
+<br> 
+<br>
+
+In this scatterplot, we compare the relationship between a restaurant’s health score and the number of Google reviews the establishment possesses on Google. As shown in the scatterplot, there is no relationship or correlation between the two variables. This means that in the future, if you’re looking for restaurants on google reviews and assume that the restaurant must be cleaner if there are many google reviews/people who seemingly visit the restaurant, you might be mistaken in thinking so.
+
 </p>
 
 <h3>Findings & Analysis</h3>
